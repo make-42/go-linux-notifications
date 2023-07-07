@@ -5,7 +5,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/make-42/go-notifications)](https://goreportcard.com/badge/github.com/make-42/go-notifications)
 [![codecov](https://codecov.io/gh/make-42/go-notifications/branch/main/graph/badge.svg)](https://codecov.io/gh/make-42/go-notifications)
 
-go-notifications is an implementation of the notifications dbus interface written in go (golang).
+go-notifications is an implementation of the notifications dbus interface written in go (golang) for receiving notifications.
 Implemented and tested against version 1.2. See: https://specifications.freedesktop.org/notification-spec/1.2/.
 
 ## Example
