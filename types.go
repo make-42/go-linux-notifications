@@ -1,4 +1,4 @@
-package linuxnotifications
+package notifications
 
 import "github.com/godbus/dbus/v5"
 

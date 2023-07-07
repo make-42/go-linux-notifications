@@ -4,11 +4,11 @@ import (
 	"log"
 
 	"github.com/davecgh/go-spew/spew"
-	linuxnotifications "github.com/make-42/go-notifications"
+	"github.com/make-42/go-notifications"
 )
 
 func main() {
-	notificationReceiver, err := linuxnotifications.NewNotificationReceiver(true)
+	notificationReceiver, err := notifications.NewNotificationReceiver(true)
 	if err != nil {
 		log.Fatal(err)
 	}
