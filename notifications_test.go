@@ -38,7 +38,7 @@ func TestUnmarshallNotification(t *testing.T) {
 		expectedUnmarshalledNotification.Body.ExpirationTimeout,
 	}
 	testMesssage := &dbus.Message{Body: testMessageBody}
-	notification := UnmarshallNotification(testMesssage)
+	notification := unmarshallNotification(testMesssage)
 	if notification.Error != nil {
 		t.Errorf("%q\n", notification.Error)
 	}
