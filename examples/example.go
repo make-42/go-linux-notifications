@@ -16,12 +16,12 @@ func main() {
 	if notification.Error != nil {
 		log.Fatal(err)
 	}
-	spew.Dump(notification.NotificationBody)
+	spew.Dump(notification.Body)
 	channel := notificationReceiver.GetChannel()
 	for v := range channel {
 		if v.Error != nil {
 			log.Fatal(v.Error)
 		}
-		spew.Dump(v.NotificationBody)
+		spew.Dump(v.Body)
 	}
 }
