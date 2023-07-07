@@ -24,4 +24,5 @@ func main() {
 		}
 		spew.Dump(v.Body)
 	}
+	notificationReceiver.Close()
 }

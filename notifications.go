@@ -12,6 +12,7 @@ const (
 	notificationDBusMember     = "Notify"
 )
 
+// This function creates a new `NotificationReceiver` object that can then be used to receive notifications. This object has to be closed with the `Close()` method.
 func NewNotificationReceiver(systemRepeatsTwice bool) (NotificationReceiver, error) {
 	conn, err := dbus.ConnectSessionBus()
 	if err != nil {
@@ -28,27 +29,29 @@ func NewNotificationReceiver(systemRepeatsTwice bool) (NotificationReceiver, err
 	return NotificationReceiver{channel: c, connection: conn, systemRepeatsTwice: systemRepeatsTwice}, nil
 }
 
+// This method closes the `NotificationReceiver` object.
 func (notificationReceiver NotificationReceiver) Close() {
 	notificationReceiver.connection.Close()
 	close(notificationReceiver.channel)
 }
 
-func HandleUnmarshallingForChannel(notificationReceiver NotificationReceiver, outputChannel chan Notification) {
+func handleUnmarshallingForChannel(notificationReceiver NotificationReceiver, outputChannel chan Notification) {
 	for v := range notificationReceiver.channel {
-		outputChannel <- UnmarshallNotification(v)
+		outputChannel <- unmarshallNotification(v)
 		if notificationReceiver.systemRepeatsTwice {
 			<-notificationReceiver.channel
 		}
 	}
 }
 
+// This method returns a channel that receives `Notification` objects.
 func (notificationReceiver NotificationReceiver) GetChannel() chan Notification {
 	outputChannel := make(chan Notification, 10)
-	go HandleUnmarshallingForChannel(notificationReceiver, outputChannel)
+	go handleUnmarshallingForChannel(notificationReceiver, outputChannel)
 	return outputChannel
 }
 
-func UnmarshallNotification(dbusMsg *dbus.Message) Notification {
+func unmarshallNotification(dbusMsg *dbus.Message) Notification {
 	if len(dbusMsg.Body) >= 8 {
 		return Notification{Body: NotificationBody{
 			ApplicationName:   dbusMsg.Body[0].(string),
@@ -65,10 +68,11 @@ func UnmarshallNotification(dbusMsg *dbus.Message) Notification {
 
 }
 
+// This method blocks until a notification is received and returns the subsequent `Notification` object.
 func (notificationReceiver NotificationReceiver) GetBlocking() Notification {
 	message := <-notificationReceiver.channel
 	if notificationReceiver.systemRepeatsTwice {
 		<-notificationReceiver.channel
 	}
-	return UnmarshallNotification(message)
+	return unmarshallNotification(message)
 }
