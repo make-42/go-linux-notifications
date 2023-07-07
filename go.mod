@@ -1,4 +1,4 @@
-module github.com/make-42/go-linux-notifications
+module github.com/make-42/go-notifications
 
 go 1.20
 
